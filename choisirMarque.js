@@ -10,6 +10,7 @@ const rl = readline.createInterface({
 let marques = ["lenovo", "hp", "acer", "asus", "lg"];
 let choixUtilisateurs = [];
 let choixInconnue = [];
+let commandesExistantes = [];
 
 let afficherMarques = function () {
   console.log("Les marque disponible sont: ");
@@ -58,9 +59,14 @@ let demandeMarque = function () {
                 });
                 choixInconnue.push({ nomClient, date, tel });
                 const filelPath1 = path.join(__dirname, "choixDispo.json");
+                if (fs.existsSync(filelPath1)) {
+                  commandesExistantes = JSON.parse(fs.readFileSync(filelPath1));
+                }
+                commandesExistantes.push(choixUtilisateurs);
+
                 fs.writeFileSync(
                   filelPath1,
-                  JSON.stringify(choixUtilisateurs, null, 2)
+                  JSON.stringify(commandesExistantes, null, 2)
                 );
                 const filelPath2 = path.join(__dirname, "choixIndispo.json");
                 fs.writeFileSync(
